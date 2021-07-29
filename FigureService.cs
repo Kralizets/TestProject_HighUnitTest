@@ -14,12 +14,15 @@ namespace TestProject
         public FigureService(IEnumerable<BaseFigure> figures)
         {
             if (figures == null)
+            {
                 _baseFigures = new BaseFigure[0];
+                return;
+            }                
 
             _baseFigures = figures;
         }
 
-        public double GetSumAreas() => _baseFigures.Sum(x => x.Area());
+        public double GetSumAreas() => _baseFigures.Any() ? 0d : _baseFigures.Sum(x => x.Area()); // В IEnumerable Any() будет быстрее, если последовательность не пустая
 
         public async Task<double> GetSumAreasAsync(CancellationToken cancellationToken)
         {
