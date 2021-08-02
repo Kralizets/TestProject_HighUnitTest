@@ -31,6 +31,21 @@ namespace TestProject
 
             return sum;
         }
+
+        public double GetSumAsParrallel(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return _baseFigures
+                    .AsParallel()
+                    .WithCancellation(cancellationToken)
+                    .Sum(x => x.Area());
+            }
+            catch (Exception e) 
+            {
+                return 0d;
+            }
+        }
     }
 
     public interface IFigureService
@@ -38,5 +53,7 @@ namespace TestProject
         public double GetSumAreas();
 
         public Task<double> GetSumAreasAsync(CancellationToken cancellationToken);
+
+        public double GetSumAsParrallel(CancellationToken cancellationToken);
     }
 }
